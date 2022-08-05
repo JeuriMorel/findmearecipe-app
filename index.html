@@ -4,9 +4,517 @@
         <meta charset="UTF-8" />
         <link rel="icon" type="image/svg+xml" href="/vite.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title></title>
-        <link rel="stylesheet" href="/sass/main.scss">
+        <title>Find Me a Recipe</title>
+        <link rel="stylesheet" href="/sass/main.scss" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Marcellus&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
+            integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <script
+            src="https://developer.edamam.com/attribution/badge.js"
+            defer
+        ></script>
         <script type="module" src="/main.js"></script>
     </head>
-    <body></body>
+    <body>
+        <header>
+            <picture>
+                <source
+                    media="(min-width: 767px)"
+                    srcset="/assets/images/veggies-2400-desktop.jpg"
+                />
+                <source
+                    media="(min-width: 480px)"
+                    srcset="/assets/images/veggies-1200-tablet.jpg"
+                />
+                <img
+                    src="/assets/images/veggies-640-mobile.jpg"
+                    alt=""
+                    data-image="bottom"
+                />
+            </picture>
+            <picture>
+                <source
+                    media="(min-width: 767px)"
+                    srcset="/assets/images/dough-2400-desktop.jpg"
+                />
+                <source
+                    media="(min-width: 480px)"
+                    srcset="/assets/images/dough-1200-tablet.jpg"
+                />
+                <img
+                    src="/assets/images/dough-640-mobile.jpg"
+                    alt=""
+                    data-image="middle"
+                />
+            </picture>
+            <picture>
+                <source
+                    media="(min-width: 767px)"
+                    srcset="/assets/images/bowls-2400-desktop.jpg"
+                />
+                <source
+                    media="(min-width: 480px)"
+                    srcset="/assets/images/bowls-1200-tablet.jpg"
+                />
+                <img
+                    src="/assets/images/bowls-640-mobile.jpg"
+                    alt=""
+                    data-image="top"
+                />
+            </picture>
+        </header>
+        <main class="container">
+            <h1>Find me a recipe</h1>
+            <form class="[ form ] [ margin-inline-auto ]">
+                <div class="form-container">
+                    <label
+                        for="keywords"
+                        class="[ ] [ text-align-left | display-block | cursor-pointer | margin-block-end-8 ]"
+                        >Search by Ingredients or dish name</label
+                    >
+                    <div class="search-bar [ ]">
+                        <input
+                            type="text"
+                            name="keywords"
+                            id="keywords"
+                            class="[] [ padding-4 ]"
+                        />
+                        <button
+                            type="button"
+                            aria-label="Search for recipes"
+                            class="[ search-button ] [ padding-8 ]"
+                        >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                    <h2>add search filters</h2>
+                    <details>
+                        <summary>diet</summary>
+                        <p class="subtitle">
+                            add as many diet filters as you want
+                        </p>
+                        <div
+                            role="group"
+                            aria-labelledby="diet-label"
+                            class="filter-group"
+                            data-group="diet"
+                        >
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="balanced"
+                                    value="balanced"
+                                    title="Protein/Fat/Carb values in 15/35/50 ratio"
+                                />
+                                <label for="balanced">balanced</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="high-fiber"
+                                    value="high-fiber"
+                                    title="More than 5g fiber per serving"
+                                />
+                                <label for="high-fiber">high-fiber</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="high-protein"
+                                    value="high-protein"
+                                    title="More than 50% of total calories from proteins"
+                                />
+                                <label for="high-protein">high-protein</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="low-carb"
+                                    value="low-carb"
+                                    title="Less than 20% of total calories from carbs"
+                                />
+                                <label for="low-carb">low-carb</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="low-fat"
+                                    value="low-fat"
+                                    title="Less than 15% of total calories from fat"
+                                />
+                                <label for="low-fat">low-fat</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="diet"
+                                    id="low-sodium"
+                                    value="low-sodium"
+                                    title="Less than 140mg Na per serving"
+                                />
+                                <label for="low-sodium">low-sodium</label>
+                            </div>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>allergies</summary>
+                        <p class="subtitle">
+                            add as many allergy filters as you want
+                        </p>
+                        <div
+                            role="group"
+                            aria-labelledby="allergies-label"
+                            class="filter-group"
+                            data-group="allergies"
+                        >
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="dairy-free"
+                                    value="dairy-free"
+                                    title="No dairy; no lactose"
+                                />
+                                <label for="dairy-free">dairy-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="egg-free"
+                                    value="egg-free"
+                                    title="No eggs or products containing eggs"
+                                />
+                                <label for="egg-free">egg-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="fish-free"
+                                    value="fish-free"
+                                    title="No fish or fish derivatives"
+                                />
+                                <label for="fish-free">fish-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="soy-free"
+                                    value="soy-free"
+                                    title="No soy or products containing soy"
+                                />
+                                <label for="soy-free">soy-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="gluten-free"
+                                    value="gluten-free"
+                                    title="No ingredients containing gluten"
+                                />
+                                <label for="gluten-free">gluten-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="kidney-friendly"
+                                    value="kidney-friendly"
+                                    title="Per serving - phosphorus less than 250 mg AND potassium less than 500 mg AND sodium less than 500 mg"
+                                />
+                                <label for="kidney-friendly"
+                                    >kidney-friendly</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="peanut-free"
+                                    value="peanut-free"
+                                    title="No peanuts or products containing peanuts"
+                                />
+                                <label for="peanut-free">peanut-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="tree-nut-free"
+                                    value="tree-nut-free"
+                                    title="	No tree nuts or products containing tree nuts"
+                                />
+                                <label for="tree-nut-free">tree-nut-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="shellfish-free"
+                                    value="shellfish-free"
+                                    title="No shellfish or shellfish derivatives"
+                                />
+                                <label for="shellfish-free"
+                                    >shellfish-free</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="sesame-free"
+                                    value="sesame-free"
+                                    title="Does not contain sesame seed or derivatives"
+                                />
+                                <label for="sesame-free">sesame-free</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="checkbox"
+                                    name="allergies"
+                                    id="wheat-free"
+                                    value="wheat-free"
+                                    title="No wheat, can have gluten though"
+                                />
+                                <label for="wheat-free">wheat-free</label>
+                            </div>
+                        </div>
+                    </details>
+                    <details>
+                        <summary>cuisine</summary>
+                        <p class="subtitle">choose up to one cuisine type</p>
+                        <div
+                            role="group"
+                            aria-labelledby="cuisine-label"
+                            class="filter-group"
+                            data-group="cuisine"
+                        >
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="american"
+                                    value="american"
+                                />
+                                <label for="american">american</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="asian"
+                                    value="asian"
+                                />
+                                <label for="asian">asian</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="british"
+                                    value="british"
+                                />
+                                <label for="british">british</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="caribbean"
+                                    value="caribbean"
+                                />
+                                <label for="caribbean">caribbean</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="central-europe"
+                                    value="central-europe"
+                                />
+                                <label for="central-europe"
+                                    >central europe</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="chinese"
+                                    value="chinese"
+                                />
+                                <label for="chinese">chinese</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="eastern-europe"
+                                    value="eastern-europe"
+                                />
+                                <label for="eastern-europe"
+                                    >eastern europe</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="french"
+                                    value="french"
+                                />
+                                <label for="french">french</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="greek"
+                                    value="greek"
+                                />
+                                <label for="greek">greek</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="indian"
+                                    value="indian"
+                                />
+                                <label for="indian">indian</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="italian"
+                                    value="italian"
+                                />
+                                <label for="italian">italian</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="japanese"
+                                    value="japanese"
+                                />
+                                <label for="japanese">japanese</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="korean"
+                                    value="korean"
+                                />
+                                <label for="korean">korean</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="kosher"
+                                    value="kosher"
+                                />
+                                <label for="kosher">kosher</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="mediterranean"
+                                    value="mediterranean"
+                                />
+                                <label for="mediterranean">mediterranean</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="mexican"
+                                    value="mexican"
+                                />
+                                <label for="mexican">mexican</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="middle-eastern"
+                                    value="middle-eastern"
+                                />
+                                <label for="middle-eastern"
+                                    >middle eastern</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="nordic"
+                                    value="nordic"
+                                />
+                                <label for="nordic">nordic</label>
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="south-american"
+                                    value="south-american"
+                                />
+                                <label for="south-american"
+                                    >south american</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="south-east-asian"
+                                    value="south-east-asian"
+                                />
+                                <label for="south-east-asian"
+                                    >south east asian</label
+                                >
+                            </div>
+                            <div class="filter-item">
+                                <input
+                                    type="radio"
+                                    name="cuisine"
+                                    id="world"
+                                    value="world"
+                                />
+                                <label for="world">world</label>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+                <div
+                    id="edamam-badge"
+                    data-color="white"
+                    class="[ attribution ] [ margin-inline-auto ]"
+                ></div>
+            </form>
+        </main>
+    </body>
 </html>

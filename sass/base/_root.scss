@@ -1,0 +1,13 @@
+:root{
+    --presentation-per-image: 10000ms;
+    --cross-fade-duration: 800ms;
+    --number-of-images: 3;
+
+    --animation-delay: calc(
+        var(--presentation-per-image) + var(--cross-fade-duration)
+    );
+    --animation-duration: calc(
+        calc(var(--presentation-per-image) + var(--cross-fade-duration)) *
+            var(--number-of-images)
+    );
+}

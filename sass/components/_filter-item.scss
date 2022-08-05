@@ -1,0 +1,51 @@
+@use "../abstracts/" as *;
+
+.filter-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 2rem;
+    min-width: 5rem;
+    margin: 0;
+    border-radius: 100vw;
+    padding: 0.5rem;
+    isolation: isolate;
+    background-color: #eee;
+
+    input {
+        position: absolute;
+        z-index: -1;
+        opacity: 0;
+
+        &:focus-visible + label {
+            outline: 2px solid red;
+        }
+    }
+
+    label {
+        background-color: #eee;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        &::before {
+            content: "\002B";
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 1.3em;
+            height: 1.3em;
+            border: 1px solid #ccc;
+            background-color: white;
+            border-radius: 50%;
+            margin-right: 0.5em;
+        }
+    }
+
+    input:checked + label::before {
+        content: "\2713";
+        background-color: clr(accent, 400);
+        color: white;
+    }
+}

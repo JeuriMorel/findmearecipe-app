@@ -1,8 +1,52 @@
+@use "sass:map";
+@use "typography" as *;
+@use "aspect-ratios" as *;
+@use "sizes" as *;
+@use "colors" as *;
+
 @function strip-unit($num) {
-    @return $num / ($num * 0 + 1);
+    @return calc($num / ($num * 0 + 1));
 }
 
 @function rem($value) {
-    $value: strip-unit($value) / 16 * 1rem;
+    $value: calc((strip-unit($value) / 16) * 1rem);
     @return $value;
+}
+
+@function clr($color, $shade) {
+    @if map.has-key($colors, $color, $shade) {
+        @return map.get($colors, $color, $shade);
+    }
+    @error '$colors does not have that color!';
+}
+@function fs($font-size) {
+    @if map.has-key($font-sizes, $font-size) {
+        @return map.get($font-sizes, $font-size);
+    }
+    @error '$font-sizes does not have that size!';
+}
+@function fw($font-weight) {
+    @if map.has-key($font-weights, $font-weight) {
+        @return map.get($font-weights, $font-weight);
+    }
+    @error '$font-weights does not have that weight!';
+}
+
+@function size($size) {
+    @if map.has-key($sizes, $size) {
+        @return map.get($sizes, $size);
+    }
+    @error '$sizes does not have that size!';
+}
+@function ff($family) {
+    @if map.has-key($font-families, $family) {
+        @return map.get($font-families, $family);
+    }
+    @error '$font-families does not have that family!';
+}
+@function ar($ratio) {
+    @if map.has-key($aspect-ratios, $ratio) {
+        @return map.get($aspect-ratios, $ratio);
+    }
+    @error '$aspect-ratios does not have that ratio!';
 }

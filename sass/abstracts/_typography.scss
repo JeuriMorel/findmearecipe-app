@@ -1,7 +1,27 @@
+$georgia: Georgia,
+    "Times New Roman",
+    Times,
+    serif;
+$marcellus: 'Marcellus', serif;
+
+
 $font-sizes: (
-    900: 3.75rem,
-    800: 3rem,
-    600: 1.5rem,
-    500: 1.3125rem,
-    400: 1.125rem,
+    400: clamp(1rem, 0.34vw + 0.91rem, 1.19rem),
+    500: clamp(1.25rem, 0.61vw + 1.1rem, 1.58rem),
+    600: clamp(1.56rem, 1vw + 1.31rem, 2.11rem),
+    700: clamp(1.95rem, 1.56vw + 1.56rem, 2.81rem),
+    800: clamp(2.44rem, 2.38vw + 1.85rem, 3.75rem),
+    900: clamp(3.05rem, 3.54vw + 2.17rem, 5rem),
 );
+
+$font-families: (
+    georgia: $georgia,
+    marcellus: $marcellus
+);
+
+$font-weights: (
+    light: 200,
+    regular: 400,
+    semi-bold: 500,
+    bold: 600
+)

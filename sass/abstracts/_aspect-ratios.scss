@@ -1,0 +1,7 @@
+@use "sass:math";
+
+$aspect-ratios: (
+    leaderboard: math.div(728, 90),
+    medium: math.div(30, 25),
+    large: math.div(32, 10),
+);
