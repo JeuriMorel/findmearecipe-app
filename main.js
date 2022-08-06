@@ -1,4 +1,5 @@
 import { qs, qsa } from "./utilities"
+import {response} from './example'
 
 const form = qs("form")
 const keywordsContainer = qs("[data-keywords]")
@@ -12,10 +13,11 @@ form.addEventListener("submit", e => {
     const diet = data.getAll("diet")
     const allergies = data.getAll("allergies")
     const cuisine = data.getAll("cuisine")
-    console.log("dish: ", dish)
-    console.log("diet: ", diet)
-    console.log("allergies: ", allergies)
-    console.log("cuisine: ", cuisine)
+    // console.log("dish: ", dish)
+    // console.log("diet: ", diet)
+    // console.log("allergies: ", allergies)
+    // console.log("cuisine: ", cuisine)
+    getRecipes()
 })
 
 form.addEventListener("change", e => {
@@ -40,7 +42,7 @@ function handleRadioKeywordBtns() {
 
 function removeKeywordBtn(val) {
     let keywordBtn = qs(`[data-keyword=${val}]`)
-    keywordBtn.remove()
+    if(keywordBtn) keywordBtn.remove()
 }
 
 function createKeywordBtn(val, isRadio) {
@@ -69,12 +71,23 @@ radios.forEach(radio => {
     })
 })
 
+//handleRecipes
+
 // https://api.edamam.com/api/recipes/v2
 
 //cuisineType=Eastern%20Europe
 
-    //https://api.edamam.com/api/recipes/v2?type=public&q=shrimp%20scampi%20alfredo&app_id=48be3615&app_key=cec90a0055ad0fcc0bb60ed6812eefc8&diet=balanced&diet=high-fiber&diet=high-protein&diet=low-carb&health=alcohol-cocktail&health=alcohol-free&cuisineType=Asian
+    //https://api.edamam.com/api/recipes/v2?type=public&q=shrimp%20scampi%20alfredo&app_id=45433615&app_key=cec90a00&diet=balanced&diet=high-fiber&diet=high-protein&diet=low-carb&health=alcohol-cocktail&health=alcohol-free&cuisineType=Asian
 
 
 
+function getRecipes() {
+    let recipes = response.hits
+    recipes.forEach(handleRecipe)
+}
 
+function handleRecipe(recipe) {
+    const { label, images, source, url, yield: servings, ingredients, calories, totalTime, totalNutrients, totalDaily, digest } = recipe.recipe
+    
+    console.dir({ label, images, source, url, servings, ingredients, calories, totalTime, totalNutrients, totalDaily, digest })
+}
