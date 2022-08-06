@@ -47,8 +47,15 @@ function createKeywordBtn(val, isRadio) {
     let el = document.createElement("button")
     el.type = "button"
     el.textContent = val
+    el.classList.add('keyword-btn')
     el.setAttribute("data-radio", isRadio)
     el.setAttribute("data-keyword", val)
+    el.addEventListener('click', () => {
+        let input = qs(`#${val}`)
+        input.removeAttribute("data-checked")
+        input.checked = false
+        el.remove()
+    })
     return el
 }
 
@@ -61,3 +68,13 @@ radios.forEach(radio => {
         }
     })
 })
+
+// https://api.edamam.com/api/recipes/v2
+
+//cuisineType=Eastern%20Europe
+
+    //https://api.edamam.com/api/recipes/v2?type=public&q=shrimp%20scampi%20alfredo&app_id=48be3615&app_key=cec90a0055ad0fcc0bb60ed6812eefc8&diet=balanced&diet=high-fiber&diet=high-protein&diet=low-carb&health=alcohol-cocktail&health=alcohol-free&cuisineType=Asian
+
+
+
+

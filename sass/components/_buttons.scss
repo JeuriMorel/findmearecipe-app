@@ -1,0 +1,31 @@
+@use "../abstracts/" as *;
+
+.keyword-btn {
+    background-color: clr(primary, 200);
+    border: none;
+    padding: size(4) size(8);
+    cursor: pointer;
+    text-transform: capitalize;
+    line-height: 1em;
+    display: inline-flex;
+    align-items: center;
+    gap: size(8);
+    margin: size(8);
+    outline-color: clr(primary, 500);
+
+    &:after {
+        content: "\00D7";
+        font-weight: fw(bold);
+        font-size: 1.2em;
+    }
+    
+    &:hover, &:focus-visible {
+        background-color: clr(primary, 100);
+        
+        &:after {
+            color: clr(primary, 500);
+            font-weight: fw(bold);
+            font-size: 1.2em;
+        }
+    }
+}
