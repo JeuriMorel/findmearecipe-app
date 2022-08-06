@@ -77,24 +77,27 @@
             <h1>Find me a recipe</h1>
             <form class="[ form ] [ margin-inline-auto ]">
                 <div class="form-container">
+                    <div class="keywords-container" data-keywords></div>
                     <label
-                        for="keywords"
-                        class="[ ] [ text-align-left | display-block | cursor-pointer | margin-block-end-8 ]"
+                        for="dish"
+                        class="[ ] [ text-align-left | display-block | cursor-pointer | margin-block-end-8 | padding-inline-start-12 ]"
                         >Search by Ingredients or dish name</label
                     >
                     <div class="search-bar [ ]">
                         <input
                             type="text"
-                            name="keywords"
-                            id="keywords"
+                            name="dish"
+                            id="dish"
                             class="[] [ padding-4 ]"
+                            required
                         />
-                        <button
-                            type="button"
-                            aria-label="Search for recipes"
-                            class="[ search-button ] [ padding-8 ]"
-                        >
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                        <button type="submit" class="[ search-button ] [ ]">
+                            <span class="visually-hidden">search</span>
+                            <i
+                                class="fa-solid fa-magnifying-glass"
+                                aria-hidden="true"
+                                focusable="false"
+                            ></i>
                         </button>
                     </div>
                     <h2>add search filters</h2>
@@ -109,63 +112,75 @@
                             class="filter-group"
                             data-group="diet"
                         >
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Protein/Fat/Carb values in 15/35/50 ratio"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="balanced"
                                     value="balanced"
-                                    title="Protein/Fat/Carb values in 15/35/50 ratio"
                                 />
                                 <label for="balanced">balanced</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="More than 5g fiber per serving"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="high-fiber"
                                     value="high-fiber"
-                                    title="More than 5g fiber per serving"
                                 />
                                 <label for="high-fiber">high-fiber</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="More than 50% of total calories from proteins"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="high-protein"
                                     value="high-protein"
-                                    title="More than 50% of total calories from proteins"
                                 />
                                 <label for="high-protein">high-protein</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Less than 20% of total calories from carbs"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="low-carb"
                                     value="low-carb"
-                                    title="Less than 20% of total calories from carbs"
                                 />
                                 <label for="low-carb">low-carb</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Less than 15% of total calories from fat"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="low-fat"
                                     value="low-fat"
-                                    title="Less than 15% of total calories from fat"
                                 />
                                 <label for="low-fat">low-fat</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Less than 140mg Na per serving"
+                            >
                                 <input
                                     type="checkbox"
                                     name="diet"
                                     id="low-sodium"
                                     value="low-sodium"
-                                    title="Less than 140mg Na per serving"
                                 />
                                 <label for="low-sodium">low-sodium</label>
                             </div>
@@ -182,117 +197,139 @@
                             class="filter-group"
                             data-group="allergies"
                         >
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No dairy; no lactose"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="dairy-free"
                                     value="dairy-free"
-                                    title="No dairy; no lactose"
                                 />
                                 <label for="dairy-free">dairy-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No eggs or products containing eggs"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="egg-free"
                                     value="egg-free"
-                                    title="No eggs or products containing eggs"
                                 />
                                 <label for="egg-free">egg-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No fish or fish derivatives"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="fish-free"
                                     value="fish-free"
-                                    title="No fish or fish derivatives"
                                 />
                                 <label for="fish-free">fish-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No soy or products containing soy"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="soy-free"
                                     value="soy-free"
-                                    title="No soy or products containing soy"
                                 />
                                 <label for="soy-free">soy-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No ingredients containing gluten"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="gluten-free"
                                     value="gluten-free"
-                                    title="No ingredients containing gluten"
                                 />
                                 <label for="gluten-free">gluten-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Per serving - phosphorus less than 250 mg AND potassium less than 500 mg AND sodium less than 500 mg"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="kidney-friendly"
                                     value="kidney-friendly"
-                                    title="Per serving - phosphorus less than 250 mg AND potassium less than 500 mg AND sodium less than 500 mg"
                                 />
                                 <label for="kidney-friendly"
                                     >kidney-friendly</label
                                 >
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No peanuts or products containing peanuts"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="peanut-free"
                                     value="peanut-free"
-                                    title="No peanuts or products containing peanuts"
                                 />
                                 <label for="peanut-free">peanut-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="	No tree nuts or products containing tree nuts"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="tree-nut-free"
                                     value="tree-nut-free"
-                                    title="	No tree nuts or products containing tree nuts"
                                 />
                                 <label for="tree-nut-free">tree-nut-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No shellfish or shellfish derivatives"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="shellfish-free"
                                     value="shellfish-free"
-                                    title="No shellfish or shellfish derivatives"
                                 />
                                 <label for="shellfish-free"
                                     >shellfish-free</label
                                 >
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="Does not contain sesame seed or derivatives"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="sesame-free"
                                     value="sesame-free"
-                                    title="Does not contain sesame seed or derivatives"
                                 />
                                 <label for="sesame-free">sesame-free</label>
                             </div>
-                            <div class="filter-item">
+                            <div
+                                class="filter-item"
+                                title="No wheat, can have gluten though"
+                            >
                                 <input
                                     type="checkbox"
                                     name="allergies"
                                     id="wheat-free"
                                     value="wheat-free"
-                                    title="No wheat, can have gluten though"
                                 />
                                 <label for="wheat-free">wheat-free</label>
                             </div>
@@ -300,7 +337,7 @@
                     </details>
                     <details>
                         <summary>cuisine</summary>
-                        <p class="subtitle">choose up to one cuisine type</p>
+                        <p class="subtitle">you may select up to one</p>
                         <div
                             role="group"
                             aria-labelledby="cuisine-label"

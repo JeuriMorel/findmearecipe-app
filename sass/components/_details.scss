@@ -1,24 +1,23 @@
 @use "../abstracts/" as *;
 
 details {
-    padding: 0.2rem;
-    border-radius: 0.2rem;
+    padding: 0.2rem 0.2rem 0.2rem 0.5rem;
     cursor: pointer;
-
     margin-bottom: 0.5rem;
-    max-height: 2rem;
+    max-height: size(36);
     transition: all 250ms ease-in-out;
     overflow: hidden;
-
+    
     summary {
         list-style: none;
-        // padding-left: 1rem;
+        border-radius: 0.2rem;
         display: flex;
-                border-bottom: 1px solid clr(neutral, 200);
+        outline-color: clr(primary, 700);
+        outline-offset: 0.2rem;
+        border-bottom: 1px solid clr(neutral, 200);
 
         text: {
             align: left;
-            // underline-offset: 0.5rem;
         }
 
         font: {
@@ -29,6 +28,7 @@ details {
             content: "\002B";
             margin-left: auto;
             margin-right: 2rem;
+            font-weight: bold;
         }
     }
 
@@ -39,9 +39,9 @@ details {
     &[open] summary {
         padding-bottom: 1em;
         margin-bottom: 0.75rem;
-        color: clr(accent, 400);
+        color: clr(accent, 700);
 
-        &::after{
+        &::after {
             content: "\2212";
         }
     }
