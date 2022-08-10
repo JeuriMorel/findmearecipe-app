@@ -7,6 +7,7 @@ details {
     max-height: size(36);
     transition: all 250ms ease-in-out;
     overflow: hidden;
+    user-select: none;
     
     summary {
         list-style: none;

@@ -1,0 +1,14 @@
+@use '../abstracts/' as *;
+
+.results-container{
+    margin-bottom: size(32);
+    width: 100%;
+    // background-color: clr(neutral, 100);
+    // display: grid;
+    // grid-template-columns: repeat(2, 1fr);
+    justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: size(12);
+    // box-shadow: rgba(clr(neutral, 900), 0.12) 0px 1px 3px, rgba(clr(primary, 900), 0.24) 0px 1px 2px;
+}

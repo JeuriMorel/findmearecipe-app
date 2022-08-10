@@ -2,6 +2,12 @@
 
 body {
     min-height: 100vh;
+    background: linear-gradient(
+        to top right,
+        clr(neutral, 100),
+        clr(neutral, 100),
+        clr(neutral, 200)
+    );
     color: clr(primary, 900);
     font: {
         size: fs(400);
@@ -41,6 +47,7 @@ h1 {
     min-height: rem(500);
     padding: 3rem 1.5rem 0;
     border-radius: 0.25rem;
+    background-color: clr(neutral, 100);
 
     box-shadow: rgba(clr(neutral, 900), 0.12) 0px 1px 3px,
         rgba(clr(primary, 900), 0.24) 0px 1px 2px;
@@ -180,6 +187,7 @@ picture {
         opacity: 0;
     }
     100% {
+        mask: linear-gradient(90deg, #000 25%, #000000e6 50%, #000000) 0 / 400% no-repeat;
         opacity: 1;
     }
 }

@@ -1,0 +1,56 @@
+@use "../abstracts/" as *;
+
+.card {
+    box-shadow: rgba(clr(neutral, 900), 0.12) 0px 1px 3px,
+        rgba(clr(primary, 900), 0.24) 0px 1px 2px;
+    padding: size(8);
+    flex-basis: 300px;
+    margin-inline: auto;
+    max-height: fit-content;
+
+    &-thumbnail {
+        width: rem(300);
+        height: rem(300);
+        object-fit: cover;
+        margin-bottom: size(8);
+    }
+
+    .recipe-name {
+        font-weight: fw(bold);
+    }
+
+    .recipe-info {
+        display: flex;
+        justify-content: space-evenly;
+        margin-bottom: size(8);
+    }
+
+    details {
+        position: relative;
+    }
+}
+
+canvas {
+    width: 60%;
+
+    &-container {
+        position: relative;
+    }
+}
+
+.calorie-display {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: fs(600);
+    font-family: ff('marcellus');
+    // z-index: 1;
+}
+
+.caution{
+    &:empty{
+        display: none;
+    }
+    color: clr(primary, 500);
+}

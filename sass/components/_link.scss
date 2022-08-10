@@ -1,0 +1,17 @@
+@use '../abstracts/' as *;
+
+.link{
+    text-decoration: none;
+    background-color: clr(accent, 400);
+    color: clr(primary, 800);
+    padding: 4px;
+    border-radius: 4px;
+    margin-block: size(8);
+    display: block;
+    box-shadow: rgba(clr(neutral, 900), 0.12) 0px 1px 3px,
+        rgba(clr(primary, 900), 0.24) 0px 1px 2px;
+
+    &:hover{
+        background-color: clr(accent, 300);
+    }
+}
