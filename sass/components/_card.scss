@@ -17,6 +17,7 @@
 
     .recipe-name {
         font-weight: fw(bold);
+        height: 2.5em;
     }
 
     .recipe-info {
@@ -31,8 +32,6 @@
 }
 
 canvas {
-    width: 60%;
-
     &-container {
         position: relative;
     }
@@ -42,15 +41,29 @@ canvas {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, 75%);
     font-size: fs(600);
-    font-family: ff('marcellus');
-    // z-index: 1;
+    font-family: ff("marcellus");
 }
 
-.caution{
-    &:empty{
+.contains {
+    &:empty {
         display: none;
     }
     color: clr(primary, 500);
+    user-select: none;
+
+    &[data-label="caution"]::before {
+        content: "Contains: ";
+    }
+
+    &[data-label="health"] {
+        color: clr(accent, 400);
+    }
+}
+
+.ingredients-list{
+    li{
+        border-bottom: 1px solid rgba(clr(primary, 900), 0.24);
+    }
 }

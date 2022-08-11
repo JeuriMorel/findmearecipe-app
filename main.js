@@ -113,11 +113,14 @@ function handleRecipeCards(recipe) {
                     <p class="recipe-name">${label}</p>
                     <p class="[ recipe-info ] subtitle"><span>${Math.round(
                         calories
-                    )}kcal</span><span>servings: ${servings}</span></p>
+                    )} kcal</span><span>servings: ${servings}</span><span>${totalTime}mins</span></p>
                     <a href=${url} target="_blank"
-                    rel="noreferrer nofollow" class="link">go to: ${source}</a>
-                    <p class="[ caution ] subtitle">Contains: ${cautions.join(
-                        "&#8226;"
+                    rel="noreferrer nofollow" class="link">view recipe at: ${source}</a>
+                    <p class="[ contains ] subtitle" data-label="caution">${cautions.join(
+                        " &#8226; "
+                    )}</p>
+                    <p class="[ contains ] subtitle" data-label="health">${healthLabels.join(
+                        " &#8226; "
                     )}</p>
                     <details>
                     <summary>calorie breakdown</summary>
@@ -128,12 +131,51 @@ function handleRecipeCards(recipe) {
                     )}</span>
                     </div>
                     </details>
+                    <details>
+                    <summary>ingredients list</summary>
+                    <ul class="[ ingredients-list ]" data-list="ingredients">
+                    </ul>
+                    </details>
+                    <details>
+                    <summary>nutrition facts</summary>
+                    <ul class="[ nutrition-list ]" data-list="nutrition">
+                    </ul>
+                    </details>
                     
                 `
 
+    console.log(totalDaily, totalNutrients)
+
     resultsContainer.append(card)
     addChartToCanvas(totalNutrients, card)
+    addIngredientsToList(ingredients, card)
+    addNutritionFactsToList(totalDaily, totalNutrients, card)
     // console.log(images.THUMBNAIL)
+}
+
+function addNutritionFactsToList(totalDaily, totalNutrients, card) {
+    let ul = qs("[data-list='nutrition']", card)
+    let keys = Object.keys(totalNutrients)
+    
+    keys.forEach(key => {
+        if(key == "ENERC_KCAL") return
+        let { label, quantity, unit } = totalNutrients[key]
+        let li = document.createElement("li")
+        li.innerHTML = `<span>${label}<span>${Math.round(
+            quantity
+        )}${unit}</span></span><span>${Math.round(totalDaily[key]?.quantity)}${
+            totalDaily[key]?.unit
+        }</span>`
+        ul.append(li)
+    })
+}
+function addIngredientsToList(ingredients, card) {
+    let ul = qs("[data-list='ingredients']", card)
+    ingredients.forEach(({ text }) => {
+        let li = document.createElement("li")
+        li.textContent = text
+        ul.append(li)
+    })
 }
 
 function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
@@ -149,15 +191,33 @@ function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
                 {
                     label: "calories",
                     data: macrosArray,
-                    backgroundColor: ["#7d5204", "#e19306", "#fdd183"],
+                    backgroundColor: ["#558d1a", "#a6e067", "#7aca25"],
                     cutout: "85%",
                     borderColor: "#fff6e6",
-                    borderWidth: 4,
+                    borderWidth: 0,
                     hoverBorderWidth: 1,
                     hoverBorderJoinStyle: "round",
                     borderAlign: "center",
                 },
             ],
+        },
+        options: {
+            plugins: {
+                tooltip: {
+                    backgroundColor: "#e4f4d3",
+                    bodyFont: {
+                        family: "Georgia,'Times New Roman',Times,serif",
+                        size: 20,
+                    },
+                    bodyColor: "#191001",
+                    bodyFontSize: 20,
+                    padding: 10,
+                    boxPadding: 10,
+                    usePointStyle: true,
+                    borderColor: "#477f0c",
+                    borderWidth: 2,
+                },
+            },
         },
     })
 }
