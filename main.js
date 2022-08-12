@@ -156,18 +156,29 @@ function handleRecipeCards(recipe) {
 function addNutritionFactsToList(totalDaily, totalNutrients, card) {
     let ul = qs("[data-list='nutrition']", card)
     let keys = Object.keys(totalNutrients)
-    
+    const boldLabels = ["Fat", "Cholesterol", "Sodium", "Protein", "Carbs"]
+
     keys.forEach(key => {
-        if(key == "ENERC_KCAL") return
+        if (key == "ENERC_KCAL" || key == "CHOCDF.net") return
         let { label, quantity, unit } = totalNutrients[key]
+        const classList = boldLabels.includes(label)
+            ? 'class="fw-bold"'
+            : "class='padding-inline-start-16'"
+
         let li = document.createElement("li")
-        li.innerHTML = `<span>${label}<span>${Math.round(
+        li.innerHTML = `<span ${classList}>${label}<span class="[ ] [ margin-inline-start-4 | fw-regular ]">${Math.round(
             quantity
-        )}${unit}</span></span><span>${Math.round(totalDaily[key]?.quantity)}${
-            totalDaily[key]?.unit
-        }</span>`
+        )}${unit}</span></span><span class="fw-bold">${getDailyPercentage(
+            totalDaily,
+            key
+        )}</span>`
         ul.append(li)
     })
+}
+function getDailyPercentage(totalDaily, key) {
+    let num = Math.round(totalDaily[key]?.quantity)
+    if (isNaN(num)) return ""
+    return num + totalDaily[key]?.unit
 }
 function addIngredientsToList(ingredients, card) {
     let ul = qs("[data-list='ingredients']", card)

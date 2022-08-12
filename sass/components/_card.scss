@@ -62,8 +62,17 @@ canvas {
     }
 }
 
-.ingredients-list{
-    li{
+ul {
+    font-family: ff(marcellus);
+    li {
         border-bottom: 1px solid rgba(clr(primary, 900), 0.24);
+        padding-block: size(4);
+    }
+
+    &[data-list="nutrition"] {
+        li {
+            display: flex;
+            justify-content: space-between;
+        }
     }
 }

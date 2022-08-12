@@ -5,3 +5,8 @@
         font-size: $size-value;
     }
 }
+@each $weight-name, $weight-value in $font-weights {
+    .fw-#{$weight-name} {
+        font-weight: $weight-value;
+    }
+}
