@@ -1,5 +1,13 @@
 import { qs, qsa } from "./utilities"
-import { response } from "./example"
+// import { response } from "./example"
+import { Macro } from "./macro"
+import {
+    APP_ID,
+    APP_KEY,
+    EDAMAM_URL,
+    SEARCH_TYPE
+} from './app_params'
+
 
 const form = qs("form")
 const keywordsContainer = qs("[data-keywords]")
@@ -10,16 +18,9 @@ const resultsContainer = qs("[data-container=results]")
 form.addEventListener("submit", e => {
     e.preventDefault()
     const data = new FormData(form)
-    const dish = data.getAll("dish")
-    const diet = data.getAll("diet")
-    const allergies = data.getAll("allergies")
-    const cuisine = data.getAll("cuisine")
-    // console.log("dish: ", dish)
-    // console.log("diet: ", diet)
-    // console.log("allergies: ", allergies)
-    // console.log("cuisine: ", cuisine)
     resultsContainer.innerHTML = ""
-    getRecipes()
+    const url = createUrl(data)
+    getRecipes(url)
     resultsContainer.scrollIntoView({
         behavior: "smooth",
     })
@@ -46,6 +47,7 @@ function handleRadioKeywordBtns() {
 }
 
 function removeKeywordBtn(val) {
+    if(val.split(' ').length > 1) return
     let keywordBtn = qs(`[data-keyword=${val}]`)
     if (keywordBtn) keywordBtn.remove()
 }
@@ -84,9 +86,31 @@ radios.forEach(radio => {
 
 //https://api.edamam.com/api/recipes/v2?type=public&q=shrimp%20scampi%20alfredo&app_id=45433615&app_key=cec90a00&diet=balanced&diet=high-fiber&diet=high-protein&diet=low-carb&health=alcohol-cocktail&health=alcohol-free&cuisineType=Asian
 
-function getRecipes() {
-    let recipes = response.hits
-    recipes.forEach(handleRecipeCards)
+function createUrl(data) {
+    const dish = data.getAll("dish")
+    const diet = data.getAll("diet")
+    const allergies = data.getAll("allergies")
+    const cuisine = data.getAll("cuisine")
+
+    const searchUrl = new URL(EDAMAM_URL)
+
+    searchUrl.searchParams.append('type', SEARCH_TYPE)
+    searchUrl.searchParams.append('q', dish)
+    searchUrl.searchParams.append('app_id', APP_ID)
+    searchUrl.searchParams.append('app_key', APP_KEY)
+    diet.forEach(dietParam => searchUrl.searchParams.append("diet", dietParam))
+    allergies.forEach(healthParam =>
+        searchUrl.searchParams.append("health", healthParam)
+    )
+    if(cuisine.length) searchUrl.searchParams.append('cuisineType', cuisine)
+
+    return searchUrl
+}
+
+async function getRecipes({ href }) {
+    let response = await fetch(href)
+    let recipes = await response.json()
+    recipes.hits.forEach(handleRecipeCards)
 }
 
 function handleRecipeCards(recipe) {
@@ -101,19 +125,20 @@ function handleRecipeCards(recipe) {
         totalTime,
         totalNutrients,
         totalDaily,
-        digest,
         healthLabels,
         cautions,
     } = recipe.recipe
 
+    let time = totalTime > 0 ? totalTime + 'mins' : ''
+
     let card = document.createElement("div")
     card.classList.add("card")
     card.innerHTML = `
-                    <img src="https://source.unsplash.com/300x300/?food" alt="" class="card-thumbnail">
+                    <img src="${images.REGULAR.url}" alt="" class="card-thumbnail">
                     <p class="recipe-name">${label}</p>
                     <p class="[ recipe-info ] subtitle"><span>${Math.round(
                         calories
-                    )} kcal</span><span>servings: ${servings}</span><span>${totalTime}mins</span></p>
+                    )} kcal</span><span>servings: ${servings}</span><span>${time}</span></p>
                     <a href=${url} target="_blank"
                     rel="noreferrer nofollow" class="link">view recipe at: ${source}</a>
                     <p class="[ contains ] subtitle" data-label="caution">${cautions.join(
@@ -144,13 +169,12 @@ function handleRecipeCards(recipe) {
                     
                 `
 
-    console.log(totalDaily, totalNutrients)
 
     resultsContainer.append(card)
     addChartToCanvas(totalNutrients, card)
     addIngredientsToList(ingredients, card)
     addNutritionFactsToList(totalDaily, totalNutrients, card)
-    // console.log(images.THUMBNAIL)
+    // console.log(images.SMALL.url)
 }
 
 function addNutritionFactsToList(totalDaily, totalNutrients, card) {
@@ -233,15 +257,4 @@ function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
     })
 }
 
-class Macro {
-    constructor({ label, quantity }) {
-        this.label = label
-        this.quantity = Math.round(quantity)
-        this.multiplier = label == "Fat" ? 9 : 4
-        this.value = this.calories
-    }
 
-    get calories() {
-        return this.multiplier * this.quantity
-    }
-}
