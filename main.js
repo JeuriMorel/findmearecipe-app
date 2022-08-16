@@ -100,8 +100,9 @@ async function getRecipes({ href }) {
     } catch (error) {
         const { message } = error
         alert(message)
-    }
+    }    
 }
+
 
 function handleRecipeCards(recipe) {
     const {
