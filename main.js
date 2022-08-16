@@ -1,4 +1,14 @@
-import { qs, qsa, appendToUrl } from "./utilities"
+import {
+    qs,
+    qsa,
+    appendToUrl,
+    createCard,
+    getDailyPercentage,
+    handleRadioKeywordBtns,
+    removeKeywordBtn,
+    createKeywordBtn,
+    addIngredientsToList,
+} from "./utilities"
 import { Macro } from "./macro"
 import { APP_ID, APP_KEY, EDAMAM_URL, SEARCH_TYPE } from "./app_params"
 
@@ -31,33 +41,6 @@ form.addEventListener("change", ({ target: { value, type, checked } }) => {
     }
 })
 
-function handleRadioKeywordBtns() {
-    let radio = qs("[data-radio=true]")
-    if (radio != undefined) radio.remove()
-}
-
-function removeKeywordBtn(val) {
-    if (val.split(" ").length > 1) return
-    let keywordBtn = qs(`[data-keyword=${val}]`)
-    if (keywordBtn) keywordBtn.remove()
-}
-
-function createKeywordBtn(val, isRadio) {
-    let el = document.createElement("button")
-    el.type = "button"
-    el.textContent = val
-    el.classList.add("keyword-btn")
-    el.setAttribute("data-radio", isRadio)
-    el.setAttribute("data-keyword", val)
-    el.addEventListener("click", () => {
-        let input = qs(`#${val}`)
-        input.removeAttribute("data-checked")
-        input.checked = false
-        el.remove()
-    })
-    return el
-}
-
 radios.forEach(radio => {
     radio.addEventListener("click", () => {
         radio.toggleAttribute("data-checked")
@@ -68,7 +51,6 @@ radios.forEach(radio => {
     })
 })
 
-//handleRecipes
 
 function createUrl(data) {
     const dish = data.getAll("dish")
@@ -91,20 +73,9 @@ function createUrl(data) {
     return searchUrl
 }
 
-async function getRecipes({ href }) {
-    try {
-        const {
-            data: { hits: recipes },
-        } = await axios(href)
-        recipes.forEach(handleRecipeCards)
-    } catch (error) {
-        const { message } = error
-        alert(message)
-    }    
-}
 
 
-function handleRecipeCards(recipe) {
+function handleRecipeCards(recipes) {
     const {
         label,
         images,
@@ -118,50 +89,21 @@ function handleRecipeCards(recipe) {
         totalDaily,
         healthLabels,
         cautions,
-    } = recipe.recipe
+    } = recipes.recipe
 
-    let time = totalTime > 0 ? totalTime + "mins" : ""
+    const cardParams = {
+        imgUrl: images.REGULAR.url,
+        label,
+        calories: Math.round(calories),
+        servings,
+        totalTime: totalTime > 0 ? totalTime + "mins" : "",
+        url,
+        source,
+        cautions: cautions.join(" &#8226; "),
+        healthLabels: healthLabels.join(" &#8226; "),
+    }
 
-    let card = document.createElement("div")
-    card.classList.add("card")
-    card.innerHTML = `
-                    <img src="${
-                        images.REGULAR.url
-                    }" alt="" class="card-thumbnail">
-                    <p class="recipe-name">${label}</p>
-                    <p class="[ recipe-info ] subtitle"><span>${Math.round(
-                        calories
-                    )} kcal</span><span>servings: ${servings}</span><span>${time}</span></p>
-                    <a href=${url} target="_blank"
-                    rel="noreferrer nofollow" class="link">view recipe at: ${source}</a>
-                    <p class="[ contains ] subtitle" data-label="caution">${cautions.join(
-                        " &#8226; "
-                    )}</p>
-                    <p class="[ contains ] subtitle" data-label="health">${healthLabels.join(
-                        " &#8226; "
-                    )}</p>
-                    <details>
-                    <summary>calorie breakdown</summary>
-                    <div class="canvas-container">
-                    <canvas></canvas>
-                    <span class="[ calorie-display ]">${Math.round(
-                        calories
-                    )}</span>
-                    </div>
-                    </details>
-                    <details>
-                    <summary>ingredients list</summary>
-                    <ul class="[ ingredients-list ]" data-list="ingredients">
-                    </ul>
-                    </details>
-                    <details>
-                    <summary>nutrition facts</summary>
-                    <ul class="[ nutrition-list ]" data-list="nutrition">
-                    </ul>
-                    </details>
-                    
-                `
-
+    const card = createCard(cardParams)
     resultsContainer.append(card)
     addChartToCanvas(totalNutrients, card)
     addIngredientsToList(ingredients, card)
@@ -190,26 +132,15 @@ function addNutritionFactsToList(totalDaily, totalNutrients, card) {
         ul.append(li)
     })
 }
-function getDailyPercentage(totalDaily, key) {
-    let num = Math.round(totalDaily[key]?.quantity)
-    if (isNaN(num)) return ""
-    return num + totalDaily[key]?.unit
-}
-function addIngredientsToList(ingredients, card) {
-    let ul = qs("[data-list='ingredients']", card)
-    ingredients.forEach(({ text }) => {
-        let li = document.createElement("li")
-        li.textContent = text
-        ul.append(li)
-    })
-}
+
+
 
 function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
     let macrosArray = [fat, carbs, protein].map(macro => new Macro(macro))
 
     let donutCanvas = qs("canvas", card).getContext("2d")
 
-    let donutChart = new Chart(donutCanvas, {
+    let _ = new Chart(donutCanvas, {
         type: "doughnut",
         data: {
             labels: macrosArray.map(macro => macro.label),
@@ -222,7 +153,6 @@ function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
                     borderColor: "#fff6e6",
                     borderWidth: 0,
                     hoverBorderWidth: 1,
-                    hoverBorderJoinStyle: "round",
                     borderAlign: "center",
                 },
             ],
@@ -246,4 +176,17 @@ function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
             },
         },
     })
+}
+
+
+async function getRecipes({ href }) {
+    try {
+        const {
+            data: { hits: recipes },
+        } = await axios(href)
+        recipes.forEach(handleRecipeCards)
+    } catch (error) {
+        const { message } = error
+        alert(message)
+    }
 }
