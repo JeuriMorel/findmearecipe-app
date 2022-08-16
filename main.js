@@ -1,17 +1,9 @@
-import { qs, qsa } from "./utilities"
-// import { response } from "./example"
+import { qs, qsa, appendToUrl } from "./utilities"
 import { Macro } from "./macro"
-import {
-    APP_ID,
-    APP_KEY,
-    EDAMAM_URL,
-    SEARCH_TYPE
-} from './app_params'
-
+import { APP_ID, APP_KEY, EDAMAM_URL, SEARCH_TYPE } from "./app_params"
 
 const form = qs("form")
 const keywordsContainer = qs("[data-keywords]")
-// const button = qs('button')
 const radios = qsa("input[type=radio]")
 const resultsContainer = qs("[data-container=results]")
 
@@ -26,18 +18,16 @@ form.addEventListener("submit", e => {
     })
 })
 
-form.addEventListener("change", e => {
-    let target = e.target
-    let val = e.target.value
-    let isRadio = target.type == "radio"
+form.addEventListener("change", ({ target: { value, type, checked } }) => {
+    let isRadio = type == "radio"
     if (isRadio) {
         handleRadioKeywordBtns()
     }
-    if (target.checked) {
-        let keywordBtn = createKeywordBtn(val, isRadio)
+    if (checked) {
+        let keywordBtn = createKeywordBtn(value, isRadio)
         keywordsContainer.append(keywordBtn)
     } else {
-        removeKeywordBtn(val)
+        removeKeywordBtn(value)
     }
 })
 
@@ -47,7 +37,7 @@ function handleRadioKeywordBtns() {
 }
 
 function removeKeywordBtn(val) {
-    if(val.split(' ').length > 1) return
+    if (val.split(" ").length > 1) return
     let keywordBtn = qs(`[data-keyword=${val}]`)
     if (keywordBtn) keywordBtn.remove()
 }
@@ -80,12 +70,6 @@ radios.forEach(radio => {
 
 //handleRecipes
 
-// https://api.edamam.com/api/recipes/v2
-
-//cuisineType=Eastern%20Europe
-
-//https://api.edamam.com/api/recipes/v2?type=public&q=shrimp%20scampi%20alfredo&app_id=45433615&app_key=cec90a00&diet=balanced&diet=high-fiber&diet=high-protein&diet=low-carb&health=alcohol-cocktail&health=alcohol-free&cuisineType=Asian
-
 function createUrl(data) {
     const dish = data.getAll("dish")
     const diet = data.getAll("diet")
@@ -94,23 +78,29 @@ function createUrl(data) {
 
     const searchUrl = new URL(EDAMAM_URL)
 
-    searchUrl.searchParams.append('type', SEARCH_TYPE)
-    searchUrl.searchParams.append('q', dish)
-    searchUrl.searchParams.append('app_id', APP_ID)
-    searchUrl.searchParams.append('app_key', APP_KEY)
-    diet.forEach(dietParam => searchUrl.searchParams.append("diet", dietParam))
+    appendToUrl(searchUrl, "type", SEARCH_TYPE)
+    appendToUrl(searchUrl, "q", dish)
+    appendToUrl(searchUrl, "app_id", APP_ID)
+    appendToUrl(searchUrl, "app_key", APP_KEY)
+    diet.forEach(dietParam => appendToUrl(searchUrl, "diet", dietParam))
     allergies.forEach(healthParam =>
-        searchUrl.searchParams.append("health", healthParam)
+        appendToUrl(searchUrl, "health", healthParam)
     )
-    if(cuisine.length) searchUrl.searchParams.append('cuisineType', cuisine)
+    if (cuisine.length) appendToUrl(searchUrl, "cuisineType", cuisine)
 
     return searchUrl
 }
 
 async function getRecipes({ href }) {
-    let response = await fetch(href)
-    let recipes = await response.json()
-    recipes.hits.forEach(handleRecipeCards)
+    try {
+        const {
+            data: { hits: recipes },
+        } = await axios(href)
+        recipes.forEach(handleRecipeCards)
+    } catch (error) {
+        const { message } = error
+        alert(message)
+    }
 }
 
 function handleRecipeCards(recipe) {
@@ -129,12 +119,14 @@ function handleRecipeCards(recipe) {
         cautions,
     } = recipe.recipe
 
-    let time = totalTime > 0 ? totalTime + 'mins' : ''
+    let time = totalTime > 0 ? totalTime + "mins" : ""
 
     let card = document.createElement("div")
     card.classList.add("card")
     card.innerHTML = `
-                    <img src="${images.REGULAR.url}" alt="" class="card-thumbnail">
+                    <img src="${
+                        images.REGULAR.url
+                    }" alt="" class="card-thumbnail">
                     <p class="recipe-name">${label}</p>
                     <p class="[ recipe-info ] subtitle"><span>${Math.round(
                         calories
@@ -169,12 +161,10 @@ function handleRecipeCards(recipe) {
                     
                 `
 
-
     resultsContainer.append(card)
     addChartToCanvas(totalNutrients, card)
     addIngredientsToList(ingredients, card)
     addNutritionFactsToList(totalDaily, totalNutrients, card)
-    // console.log(images.SMALL.url)
 }
 
 function addNutritionFactsToList(totalDaily, totalNutrients, card) {
@@ -256,5 +246,3 @@ function addChartToCanvas({ FAT: fat, CHOCDF: carbs, PROCNT: protein }, card) {
         },
     })
 }
-
-

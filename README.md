@@ -12,7 +12,7 @@
 
 FIND ME A RECIPE is a recipe search app using the EDAMAM API where you can add dietary or health filters to your search. The results include nutritional information such as calorie breakdowns and nutrients.
 
-![A doughnut chart using chart.js](/public/assets/images/chart-graphic.jpg)
+<!-- ![A doughnut chart using chart.js](/public/assets/images/chart-graphic.jpg) -->
 
 ## Tech Used
 

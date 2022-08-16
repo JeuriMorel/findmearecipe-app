@@ -5,3 +5,7 @@ export function qs(selector, parent = document) {
 export function qsa(selector, parent = document) {
     return [...parent.querySelectorAll(selector)]
 }
+
+export function appendToUrl(url, param, value) {
+    url.searchParams.append(param, value)
+}
