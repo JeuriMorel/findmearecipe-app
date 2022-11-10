@@ -23,9 +23,6 @@ form.addEventListener("submit", e => {
     resultsContainer.innerHTML = ""
     const url = createUrl(data)
     getRecipes(url)
-    resultsContainer.scrollIntoView({
-        behavior: "smooth",
-    })
 })
 
 form.addEventListener("change", ({ target: { value, type, checked } }) => {
@@ -184,7 +181,17 @@ async function getRecipes({ href }) {
         const {
             data: { hits: recipes },
         } = await axios(href)
+        if (!recipes.length) {
+            const resultFailedParagraph = document.createElement('p')
+            resultFailedParagraph.textContent =
+                "Your search did not match any recipes."
+            resultFailedParagraph.classList = '[ ] [ clr-primary-800  fs-600 ]'
+            resultsContainer.append(resultFailedParagraph)
+        }
         recipes.forEach(handleRecipeCards)
+        resultsContainer.scrollIntoView({
+            behavior: "smooth",
+        })
     } catch (error) {
         const { message } = error
         alert(message)
